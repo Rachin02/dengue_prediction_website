@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dengue Fever Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h1>Dengue Fever Prediction</h1>
+            <p>An AI-powered tool</p>
+            <p>Fill in the patient information to get a model prediction.</p>
+        </div>
+
+        <form id="dengue-form">
+            <!-- Demographic & clinical inputs -->
+            <div class="section-title">Patient Information</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="age">Age (years)</label>
+                    <input type="number" id="age" name="age" min="0" max="120" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Duration of Fever (days)</label>
+                    <input type="number" id="duration" name="duration" min="0" max="30" required>
+                </div>
+            </div>
+
+            <!-- Lab values -->
+            <div class="section-title">Laboratory Values</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="platelet">Platelet Count (per µL)</label>
+                    <input type="number" id="platelet" name="platelet" min="0" step="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="wbc">WBC Count (per µL)</label>
+                    <input type="number" id="wbc" name="wbc" min="0" step="1" required>
+                </div>
+            </div>
+
+            <!-- Symptoms -->
+            <div class="section-title">Symptoms (Yes / No)</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="fever">Fever</label>
+                    <select id="fever" name="fever" required>
+                        <option value="">Select</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="rash">Rash</label>
+                    <select id="rash" name="rash" required>
+                        <option value="">Select</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="vomiting">Vomiting</label>
+                    <select id="vomiting" name="vomiting" required>
+                        <option value="">Select</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="headache">Headache</label>
+                    <select id="headache" name="headache" required>
+                        <option value="">Select</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="muscle_pain">Muscle Pain</label>
+                    <select id="muscle_pain" name="muscle_pain" required>
+                        <option value="">Select</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit">Predict Dengue</button>
+            </div>
+
+            <div id="result" class="result">
+                <!-- After connecting to your ML model, show prediction here -->
+                Prediction result will appear here.
+            </div>
+
+            <p class="note">
+                Developed by <b>Nure Alam Siddiki Rachin</b> 
+            </p>
+        </form>
+    </div>
+
+    <!-- Optional: later you can add JS to send form data to your model API -->
+    <!--
+    <script>
+        document.getElementById('dengue-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Collect values and send to your backend / ML model
+            // Then display result inside #result div
+            const resultBox = document.getElementById('result');
+            resultBox.style.display = 'block';
+            resultBox.textContent = 'Example: High risk of dengue (dummy output).';
+        });
+    </script>
+    -->
+</body>
+</html>
