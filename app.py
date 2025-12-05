@@ -91,15 +91,35 @@ def predict():
     try:
         features_df = pd.DataFrame([data_row], columns=FEATURE_COLUMNS)
         prediction = model.predict(features_df)
-        return render_template('index.html', prediction_text=f'The predicted value is {prediction[0]}')
+        # prediction may be an array like [0] or [1], or probabilities.
+        raw = prediction[0]
+        # Normalize to a single numeric value when possible
+        try:
+            # numpy types support float conversion
+            val = float(raw)
+        except Exception:
+            try:
+                val = int(raw)
+            except Exception:
+                val = raw
+
+        label = None
+        # If it's a numeric probability between 0 and 1, threshold at 0.5
+        try:
+            if isinstance(val, float) and 0.0 <= val <= 1.0:
+                label = 'Dengue Positive' if val >= 0.5 else 'Dengue Negative'
+            else:
+                # Otherwise treat as class label (0/1)
+                intval = int(round(val))
+                label = 'Dengue Positive' if intval == 1 else 'Dengue Negative'
+        except Exception:
+            # Fallback: show raw prediction
+            label = f'The predicted value is {raw}'
+
+        return render_template('index.html', prediction_text=label)
     except Exception as e:
         return render_template('index.html', prediction_text=f'Prediction failed: {e}')
 
 
 if __name__ == "__main__":
-    # Allow selecting port via environment variable to avoid conflicts
-    try:
-        port = int(os.environ.get('PORT', 5000))
-    except Exception:
-        port = 5000
-    flask_app.run(debug=True, host='0.0.0.0', port=port)
+    flask_app.run(debug=True)

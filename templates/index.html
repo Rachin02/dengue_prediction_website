@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Dengue Fever Prediction</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/style.css">
   
 </head>
 <body>
@@ -15,7 +15,7 @@
             <p>Fill in the patient information to get a model prediction.</p>
         </div>
 
-        <form id="dengue-form">
+        <form id="dengue-form" method="post" action="/predict">
             <!-- Demographic & clinical inputs -->
             <div class="section-title">Patient Information</div>
             <div class="grid">
@@ -106,9 +106,13 @@
                 <button type="submit">Predict Dengue</button>
             </div>
 
-            <div id="result" class="result">
+            <div id="result" class="result" {% if prediction_text %}style="display:block;"{% endif %}>
                 <!-- After connecting to your ML model, show prediction here -->
-                Prediction result will appear here.
+                {% if prediction_text %}
+                    <div class="prediction">{{ prediction_text }}</div>
+                {% else %}
+                    Prediction result will appear here.
+                {% endif %}
             </div>
 
             <p class="note">
@@ -117,18 +121,5 @@
         </form>
     </div>
 
-    <!-- Optional: later you can add JS to send form data to your model API -->
-    <!--
-    <script>
-        document.getElementById('dengue-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Collect values and send to your backend / ML model
-            // Then display result inside #result div
-            const resultBox = document.getElementById('result');
-            resultBox.style.display = 'block';
-            resultBox.textContent = 'Example: High risk of dengue (dummy output).';
-        });
-    </script>
-    -->
 </body>
 </html>
