@@ -124,7 +124,46 @@
             border: 1px solid #c5e1a5;
             font-size: 14px;
             color: #33691e;
-            display: none; /* show this after prediction */
+            display: none; /* shown when no summary */
+        }
+
+        .summary {
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #ffffff, #f7fff6);
+            border: 1px solid #dcedc8;
+            box-shadow: 0 6px 18px rgba(27,94,32,0.06);
+            color: #2e7d32;
+        }
+
+        .summary h3 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: #1b5e20;
+        }
+
+        .summary ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 14px;
+            margin: 6px 0 10px 0;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        .summary li strong { color: #33691e; }
+
+        .prediction-large {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: linear-gradient(90deg,#e8f5e9,#e0f2f1);
+            border: 1px solid #b9f6ca;
+            font-weight: 700;
+            color: #1b5e20;
+            text-align: center;
         }
 
         .note {

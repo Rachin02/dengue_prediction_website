@@ -21,21 +21,21 @@
             <div class="grid">
                 <div class="form-group">
                     <label for="age">Age (years)</label>
-                    <input type="number" id="age" name="age" min="0" max="120" required>
+                    <input type="number" id="age" name="age" min="0" max="120" required value="{{ form_values.get('age','') if form_values is defined else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="gender">Gender</label>
                     <select id="gender" name="gender" required>
                         <option value="">Select gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="male" {% if form_values is defined and form_values.get('gender') == 'male' %}selected{% endif %}>Male</option>
+                        <option value="female" {% if form_values is defined and form_values.get('gender') == 'female' %}selected{% endif %}>Female</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="duration">Duration of Fever (days)</label>
-                    <input type="number" id="duration" name="duration" min="0" max="30" required>
+                    <input type="number" id="duration" name="duration" min="0" max="30" required value="{{ form_values.get('duration','') if form_values is defined else '' }}">
                 </div>
             </div>
 
@@ -44,12 +44,12 @@
             <div class="grid">
                 <div class="form-group">
                     <label for="platelet">Platelet Count (per µL)</label>
-                    <input type="number" id="platelet" name="platelet" min="0" step="1" required>
+                    <input type="number" id="platelet" name="platelet" min="0" step="1" required value="{{ form_values.get('platelet','') if form_values is defined else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="wbc">WBC Count (per µL)</label>
-                    <input type="number" id="wbc" name="wbc" min="0" step="1" required>
+                    <input type="number" id="wbc" name="wbc" min="0" step="1" required value="{{ form_values.get('wbc','') if form_values is defined else '' }}">
                 </div>
             </div>
 
@@ -60,8 +60,8 @@
                     <label for="fever">Fever</label>
                     <select id="fever" name="fever" required>
                         <option value="">Select</option>
-                        <option value="yes">YES</option>
-                        <option value="no">NO</option>
+                        <option value="yes" {% if form_values is defined and form_values.get('fever') == 'yes' %}selected{% endif %}>YES</option>
+                        <option value="no" {% if form_values is defined and form_values.get('fever') == 'no' %}selected{% endif %}>NO</option>
                     </select>
                 </div>
 
@@ -69,8 +69,8 @@
                     <label for="rash">Rash</label>
                     <select id="rash" name="rash" required>
                         <option value="">Select</option>
-                        <option value="yes">YES</option>
-                        <option value="no">NO</option>
+                        <option value="yes" {% if form_values is defined and form_values.get('rash') == 'yes' %}selected{% endif %}>YES</option>
+                        <option value="no" {% if form_values is defined and form_values.get('rash') == 'no' %}selected{% endif %}>NO</option>
                     </select>
                 </div>
 
@@ -78,8 +78,8 @@
                     <label for="vomiting">Vomiting</label>
                     <select id="vomiting" name="vomiting" required>
                         <option value="">Select</option>
-                        <option value="yes">YES</option>
-                        <option value="no">NO</option>
+                        <option value="yes" {% if form_values is defined and form_values.get('vomiting') == 'yes' %}selected{% endif %}>YES</option>
+                        <option value="no" {% if form_values is defined and form_values.get('vomiting') == 'no' %}selected{% endif %}>NO</option>
                     </select>
                 </div>
 
@@ -87,8 +87,8 @@
                     <label for="headache">Headache</label>
                     <select id="headache" name="headache" required>
                         <option value="">Select</option>
-                        <option value="yes">YES</option>
-                        <option value="no">NO</option>
+                        <option value="yes" {% if form_values is defined and form_values.get('headache') == 'yes' %}selected{% endif %}>YES</option>
+                        <option value="no" {% if form_values is defined and form_values.get('headache') == 'no' %}selected{% endif %}>NO</option>
                     </select>
                 </div>
 
@@ -96,8 +96,8 @@
                     <label for="muscle_pain">Muscle Pain</label>
                     <select id="muscle_pain" name="muscle_pain" required>
                         <option value="">Select</option>
-                        <option value="yes">YES</option>
-                        <option value="no">NO</option>
+                        <option value="yes" {% if form_values is defined and form_values.get('muscle_pain') == 'yes' %}selected{% endif %}>YES</option>
+                        <option value="no" {% if form_values is defined and form_values.get('muscle_pain') == 'no' %}selected{% endif %}>NO</option>
                     </select>
                 </div>
             </div>
@@ -106,20 +106,28 @@
                 <button type="submit">Predict Dengue</button>
             </div>
 
-            <div id="result" class="result" {% if prediction_text %}style="display:block;"{% endif %}>
-                <!-- After connecting to your ML model, show prediction here -->
+            {# Summary box: show submitted inputs and the prediction #}
+            {% if form_values is defined and form_values %}
+            <div class="summary">
+                <h3>Input Summary</h3>
+                <ul>
+                    <li><strong>Age:</strong> {{ form_values.get('age','-') }}</li>
+                    <li><strong>Gender:</strong> {{ form_values.get('gender','-') }}</li>
+                    <li><strong>Duration of Fever (days):</strong> {{ form_values.get('duration','-') }}</li>
+                    <li><strong>Platelet Count:</strong> {{ form_values.get('platelet','-') }}</li>
+                    <li><strong>WBC:</strong> {{ form_values.get('wbc','-') }}</li>
+                    <li><strong>Fever:</strong> {{ form_values.get('fever','-') }}</li>
+                    <li><strong>Rash:</strong> {{ form_values.get('rash','-') }}</li>
+                    <li><strong>Vomiting:</strong> {{ form_values.get('vomiting','-') }}</li>
+                    <li><strong>Headache:</strong> {{ form_values.get('headache','-') }}</li>
+                    <li><strong>Muscle Pain:</strong> {{ form_values.get('muscle_pain','-') }}</li>
+                </ul>
                 {% if prediction_text %}
-                    <div class="prediction">{{ prediction_text }}</div>
-                {% else %}
-                    Prediction result will appear here.
+                    <div class="prediction-large">Prediction: <span>{{ prediction_text }}</span></div>
                 {% endif %}
             </div>
-
-            <p class="note">
-                Developed by <b>Nure Alam Siddiki Rachin</b> 
-            </p>
-        </form>
-    </div>
-
-</body>
-</html>
+            {% else %}
+            <div id="result" class="result">
+                Prediction result will appear here.
+            </div>
+            {% endif %}

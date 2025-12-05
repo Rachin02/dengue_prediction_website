@@ -61,7 +61,9 @@ def to_numeric(val):
 @flask_app.route("/predict", methods=["POST"])
 def predict():
     if model is None:
-        return render_template('index.html', prediction_text='Model not loaded. Check server logs.')
+        # return form values so the UI can re-populate fields
+        form_values = {k: v for k, v in request.form.items()}
+        return render_template('index.html', prediction_text='Model not loaded. Check server logs.', form_values=form_values)
 
     # Map form fields to the model's expected column names
     # Form field names -> CSV column names
@@ -87,6 +89,9 @@ def predict():
         target_col = form_to_col.get(form_key)
         if target_col and target_col in data_row:
             data_row[target_col] = to_numeric(form_val)
+
+    # capture submitted form values so we can re-render them in the template
+    form_values = {k: v for k, v in request.form.items()}
 
     try:
         features_df = pd.DataFrame([data_row], columns=FEATURE_COLUMNS)
@@ -116,9 +121,9 @@ def predict():
             # Fallback: show raw prediction
             label = f'The predicted value is {raw}'
 
-        return render_template('index.html', prediction_text=label)
+        return render_template('index.html', prediction_text=label, form_values=form_values)
     except Exception as e:
-        return render_template('index.html', prediction_text=f'Prediction failed: {e}')
+        return render_template('index.html', prediction_text=f'Prediction failed: {e}', form_values=form_values)
 
 
 if __name__ == "__main__":
